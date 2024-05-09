@@ -1,90 +1,123 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManeger : MonoBehaviour
 {
+    public GameObject playerPrefab;
 
-    int[] map;
+    int[,] map;
 
-    bool MoveNumber(int number,int moveFrom,int moveTo)
-    {
-        //ˆÚ“®æ‚ª”ÍˆÍŠO‚È‚çˆÚ“®•s‰Â
-        if(moveTo<0||moveTo>=map.Length)
-        {
-            return false;
-        }
-        //ˆÚ“®æ‚É2(” )‚ª‚¢‚½‚ç
-        if (map[moveTo] == 2)
-        {
-            //‚Ç‚Ì•ûŒü‚ÖˆÚ“®‚·‚é‚©‚ğZo
-            int offset= moveTo - moveFrom;
-            //ƒvƒŒƒCƒ„[‚ÌˆÚ“®æ‚©‚çA‚³‚ç‚É‚³‚«‚Ö2i” j‚ğˆÚ“®‚³‚¹‚é
-            //” ‚ÌˆÚ“®ˆ—BMoveNumberƒƒ\ƒbƒh“à‚ÅMoveNumberƒƒ\ƒbƒh‚ğ
-            //ŒÄ‚ÑAˆ—‚ªÄ‹A‚µ‚Ä‚¢‚éBˆÚ“®‰Â•s‰Â‚ğbool‚Å‹L˜^
-            bool success = MoveNumber(2, moveTo, moveTo + offset);
-            //‚à‚µ” ‚ªˆÚ“®¸”s‚µ‚½‚çAƒvƒŒƒC‚â[‚ÌˆÚ“®‚à¸”s
-            if (!success) 
-            { 
-                return false;
-            }
-        }
-        //ƒvƒŒƒCƒ„[E” ŠÖ‚í‚ç‚¸‚ÌˆÚ“®ˆ—
-        map[moveTo] = number;
-        map[moveFrom] = 0;
-        return true;
-    }
+    //bool MoveNumber(int number,int moveFrom,int moveTo)
+    //{
+    //    //ç§»å‹•å…ˆãŒç¯„å›²å¤–ãªã‚‰ç§»å‹•ä¸å¯
+    //    if(moveTo<0||moveTo>=map.Length)
+    //    {
+    //        return false;
+    //    }
+    //    //ç§»å‹•å…ˆã«2(ç®±)ãŒã„ãŸã‚‰
+    //    if (map[moveTo] == 2)
+    //    {
+    //        //ã©ã®æ–¹å‘ã¸ç§»å‹•ã™ã‚‹ã‹ã‚’ç®—å‡º
+    //        int offset= moveTo - moveFrom;
+    //        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å…ˆã‹ã‚‰ã€ã•ã‚‰ã«ã•ãã¸2ï¼ˆç®±ï¼‰ã‚’ç§»å‹•ã•ã›ã‚‹
+    //        //ç®±ã®ç§»å‹•å‡¦ç†ã€‚MoveNumberãƒ¡ã‚½ãƒƒãƒ‰å†…ã§MoveNumberãƒ¡ã‚½ãƒƒãƒ‰ã‚’
+    //        //å‘¼ã³ã€å‡¦ç†ãŒå†å¸°ã—ã¦ã„ã‚‹ã€‚ç§»å‹•å¯ä¸å¯ã‚’boolã§è¨˜éŒ²
+    //        bool success = MoveNumber(2, moveTo, moveTo + offset);
+    //        //ã‚‚ã—ç®±ãŒç§»å‹•å¤±æ•—ã—ãŸã‚‰ã€ãƒ—ãƒ¬ã‚¤ã‚„ãƒ¼ã®ç§»å‹•ã‚‚å¤±æ•—
+    //        if (!success) 
+    //        { 
+    //            return false;
+    //        }
+    //    }
+    //    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ»ç®±é–¢ã‚ã‚‰ãšã®ç§»å‹•å‡¦ç†
+    //    map[moveTo] = number;
+    //    map[moveFrom] = 0;
+    //    return true;
+    //}
 
-    int GetPlayerIndex()
-    {
-        for (int i = 0; i < map.Length; i++)
-        {
-            if (map[i] == 1)
-            {
-                return i;
-            }
-        }
-        return -1;
+    //int GetPlayerIndex()
+    //{
+    //    for (int i = 0; i < map.Length; i++)
+    //    {
+    //        if (map[i] == 1)
+    //        {
+    //            return i;
+    //        }
+    //    }
+    //    return -1;
 
-    }
+    //}
 
-    void PrintArray()
-    {
-        string debugText = "";
+    //void PrintArray()
+    //{
+    //    string debugText = "";
 
-        for (int i = 0; i < map.Length; i++)
-        {
-            debugText += map[i].ToString() + ",";
-        }
+    //    for (int i = 0; i < map.Length; i++)
+    //    {
+    //        debugText += map[i].ToString() + ",";
+    //    }
 
-        Debug.Log(debugText);
-    }
+    //    Debug.Log(debugText);
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
-        map = new int[] { 0, 1, 0, 2, 0, 2, 0, 0, 0 };
-        PrintArray();
+
+        map = new int[,]
+        {
+            { 0, 1, 0, 2, 0, 2, 0, 0, 0 },
+            { 0, 1, 0, 2, 0, 2, 0, 0, 0 },
+            { 0, 1, 0, 2, 0, 2, 0, 0, 0 },
+        };
+
+        for(int y=0; y < map.GetLength(0); y++)
+        {
+            for(int x = 0; x < map.GetLength(1); x++)
+            {
+                if (map[y, x] == 1)
+                {
+                    GameObject instance = Instantiate(
+                        playerPrefab,
+                        new Vector3(x, map.GetLength(0) - y, 0),
+                        Quaternion.identity
+                    );
+                }
+            }
+        }
+
+        string debugText = "";
+        //å¤‰æ›´ã€‚äºŒé‡foræ–‡ã§äºŒæ¬¡å…ƒé…åˆ—ã®æƒ…å ±ã‚’å‡ºåŠ›
+        for(int y = 0; y < map.GetLength(0); y++)
+        {
+            for(int x = 0; x < map.GetLength(1); x++)
+            {
+                debugText += map[y,x].ToString() + ",";
+            }
+            debugText += "\n";//æ”¹è¡Œ
+        }
+        Debug.Log(debugText);
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    //void Update()
+    //{
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            int playerIndex = GetPlayerIndex();
-            MoveNumber(1, playerIndex, playerIndex + 1);
-            PrintArray();
-        }
+    //    if (Input.GetKeyDown(KeyCode.RightArrow))
+    //    {
+    //        int playerIndex = GetPlayerIndex();
+    //        MoveNumber(1, playerIndex, playerIndex + 1);
+    //        PrintArray();
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            int playerIndex = GetPlayerIndex();
-            MoveNumber(1, playerIndex, playerIndex - 1);
-            PrintArray();
+    //    if (Input.GetKeyDown(KeyCode.LeftArrow))
+    //    {
+    //        int playerIndex = GetPlayerIndex();
+    //        MoveNumber(1, playerIndex, playerIndex - 1);
+    //        PrintArray();
             
-        }
+    //    }
 
-    }
+    //}
 }
