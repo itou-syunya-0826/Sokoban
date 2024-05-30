@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject boxPrefab;
+
+    public GameObject clearText;
+    public GameObject GoalPrefab;
     /// <summary>
     /// マップの初期状態
     /// </summary>
@@ -75,8 +78,13 @@ public class GameManager : MonoBehaviour
         //    }
         //}   // 行先に箱がある時
 
-        field[movefrom.y, movefrom.x].transform.position =
-            new Vector3(moveto.x, -1 * moveto.y, 0);    // シーン上のオブジェクトを動かす
+        //field[movefrom.y, movefrom.x].transform.position =
+        //    new Vector3(moveto.x, -1 * moveto.y, 0);    // シーン上のオブジェクトを動かす
+        GameObject player0rBox = field[movefrom.y, movefrom.x];
+        Move move = player0rBox.GetComponent<Move>();
+        move.MoveTo(new Vector3(moveto.x, -1 * moveto.y, 0));
+
+
         // field のデータを動かす
         field[moveto.y, moveto.x] = field[movefrom.y, movefrom.x];
         field[movefrom.y, movefrom.x] = null;
@@ -120,14 +128,18 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
+        clearText.SetActive(false);
+
         map = new int[,]
         {
-            { 1, 0, 0, 0, 0, 2, 0, 2, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 2, 3, 2, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 2, 0, 2, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0 ,0 },
+            { 0, 0, 0, 0, 0, 0, 3, 0, 0 ,0 },
+            { 0, 0, 0, 0, 0, 2, 0, 2, 0 ,0 },
+            { 0, 0, 0, 0, 3, 0, 0, 0, 3 ,0 },
+            { 0, 0, 0, 0, 0, 2, 0, 2, 0 ,0 },
+            { 0, 0, 0, 0, 0, 0, 3, 0, 0 ,0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 }
         };
 
         PrintArray();
@@ -154,6 +166,12 @@ public class GameManager : MonoBehaviour
                         Instantiate(boxPrefab, new Vector3(x, -1 * y, 0), Quaternion.identity);
                     field[y, x] = instance;
                 }   // 箱を見つけた
+                else if (map[y, x] == 3)
+                {
+                    instance =
+                        Instantiate(GoalPrefab, new Vector3(x, -1 * y, 0), Quaternion.identity);
+                    field[y, x] = instance;
+                }
             }
         }
     }
@@ -166,7 +184,7 @@ public class GameManager : MonoBehaviour
             MoveNumber(playerPostion, playerPostion + Vector2Int.right);
             if (Iscleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -176,7 +194,7 @@ public class GameManager : MonoBehaviour
             MoveNumber(playerPostion, playerPostion + Vector2Int.left);
             if (Iscleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -186,7 +204,7 @@ public class GameManager : MonoBehaviour
             MoveNumber(playerPostion, playerPostion - Vector2Int.up);
             if (Iscleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -196,7 +214,7 @@ public class GameManager : MonoBehaviour
             MoveNumber(playerPostion, playerPostion - Vector2Int.down);
             if (Iscleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
     }
