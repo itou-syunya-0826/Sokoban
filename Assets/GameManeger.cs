@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
@@ -64,8 +65,11 @@ public class GameManager : MonoBehaviour
             bool result = MoveNumber(moveto, moveto + offset);
 
             if (!result)
+            {
                 return false;
-        }   // 行先に箱がある時
+            }
+        }
+        // 行先に箱がある時
 
         //if (map[moveto] == 2)
         //{
@@ -133,10 +137,10 @@ public class GameManager : MonoBehaviour
 
         map = new int[,]
         {
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0 ,0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 },
             { 0, 0, 0, 0, 0, 0, 3, 0, 0 ,0 },
             { 0, 0, 0, 0, 0, 2, 0, 2, 0 ,0 },
-            { 0, 0, 0, 0, 3, 0, 0, 0, 3 ,0 },
+            { 0, 1, 0, 0, 3, 0, 0, 0, 3 ,0 },
             { 0, 0, 0, 0, 0, 2, 0, 2, 0 ,0 },
             { 0, 0, 0, 0, 0, 0, 3, 0, 0 ,0 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 }
@@ -185,6 +189,8 @@ public class GameManager : MonoBehaviour
             if (Iscleard())
             {
                 clearText.SetActive(true);
+
+                Application.Quit();
             }
         }
 
@@ -195,6 +201,9 @@ public class GameManager : MonoBehaviour
             if (Iscleard())
             {
                 clearText.SetActive(true);
+
+                // アプリケーションを終了する
+                Application.Quit();
             }
         }
 
@@ -205,6 +214,7 @@ public class GameManager : MonoBehaviour
             if (Iscleard())
             {
                 clearText.SetActive(true);
+                Application.Quit();
             }
         }
 
@@ -215,6 +225,7 @@ public class GameManager : MonoBehaviour
             if (Iscleard())
             {
                 clearText.SetActive(true);
+                Application.Quit();
             }
         }
     }
